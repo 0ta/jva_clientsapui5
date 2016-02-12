@@ -1,0 +1,32 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout"
+	xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:commons="sap.suite.ui.commons">
+	<Dialog id="idResultDialog" title="Information" contentWidth="720px"
+		class="sapUiPopupWithPadding">
+		<content>
+			<commons:TileContent footer="Actual and Target" unit="EUR" size="S"
+				class="sapUiSmallMargin">
+				<commons:content>
+					<core:HTML content='&lt;svg class=&quot;volley-PopOverResult-Total&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot;&gt;&lt;/svg&gt;'></core:HTML>
+				</commons:content>
+			</commons:TileContent>
+			<commons:TileContent footer="Actual and Target" unit="EUR" size="S"
+				class="sapUiSmallMargin">
+				<commons:content>
+					<commons:BulletChart size="S" scale="M" targetValue="75"
+						targetValueLabel="75c" minValue="0" maxValue="150">
+						<commons:actual>
+							<commons:BulletChartData value="125" color="Error" />
+						</commons:actual>
+						<commons:thresholds>
+							<commons:BulletChartData value="35" color="Critical" />
+							<commons:BulletChartData value="115" color="Error" />
+						</commons:thresholds>
+					</commons:BulletChart>
+				</commons:content>
+			</commons:TileContent>
+		</content>
+		<buttons>
+			<Button text="キャンセル" press="onResultDialogCancel" />
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

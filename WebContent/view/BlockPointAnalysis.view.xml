@@ -1,0 +1,78 @@
+<mvc:View controllerName="sap.ags.jvap.view.BlockPointAnalysis"
+	xmlns:l="sap.ui.layout" xmlns:mvc="sap.ui.core.mvc" xmlns:u="sap.ui.unified"
+	xmlns:core="sap.ui.core" xmlns="sap.m">
+	<Page title="Block Position Predictive Analysis" showHeader="true">
+		<headerContent>
+			<Button icon="sap-icon://message-information" press="onDisplayResultPopup" />
+		</headerContent>
+		<subHeader>
+			<Toolbar design="Transparent" height="55px">
+				<core:HTML
+					content='&lt;div class=&quot;volley-Page-Header-Info volley-Page-Header&quot;&gt;SCORE: &lt;/div&gt;'></core:HTML>
+				<core:HTML
+					content='&lt;div class=&quot;volley-Page-Header&quot;&gt; &lt;/div&gt;'></core:HTML>
+				<core:HTML
+					content='&lt;div class=&quot;volley-Page-Header&quot;&gt;{score}&lt;/div&gt;'></core:HTML>
+				<ToolbarSpacer width="{viewProperties>/separaterSpaceWidth}" />
+				<Label text="Last Update:" class="volley-Page-Header-Info" />
+				<Label id="timestamp-lbl" class="volley-Page-Header-Info"/>
+			</Toolbar>
+		</subHeader>
+		<content>
+			<core:HTML
+				content='
+					&lt;div id=&quot;fullpagecontainer&quot;&gt;
+						&lt;div id=&quot;fullpage&quot;&gt;
+	    					&lt;div class=&quot;section&quot;&gt;
+		    					&lt;div class=&quot;slide&quot;&gt;
+		    						&lt;div class=&quot;svgcontainer&quot;&gt;
+			    						&lt;div id=&quot;s1headercontainer&quot;&gt;&lt;/div&gt;
+			    						&lt;div id=&quot;s1graph&quot;&gt;&lt;/div&gt;
+			    					&lt;/div&gt;
+		    					&lt;/div&gt;
+		    					&lt;div class=&quot;slide&quot;&gt;
+		    						&lt;div class=&quot;svgcontainer&quot;&gt;
+			    						&lt;div id=&quot;s2headercontainer&quot;&gt;&lt;/div&gt;
+			    						&lt;div id=&quot;s2graph&quot;&gt;&lt;/div&gt;
+			    					&lt;/div&gt;
+		    					&lt;/div&gt;
+		    					&lt;div class=&quot;slide&quot;&gt;
+		    						&lt;div class=&quot;svgcontainer&quot;&gt;
+			    						&lt;div id=&quot;s3headercontainer&quot;&gt;&lt;/div&gt;
+			    						&lt;div id=&quot;s3graph&quot;&gt;&lt;/div&gt;
+			    					&lt;/div&gt;
+		    					&lt;/div&gt;
+		    					&lt;div class=&quot;slide&quot;&gt;
+		    						&lt;div class=&quot;svgcontainer&quot;&gt;
+			    						&lt;div id=&quot;s4headercontainer&quot;&gt;&lt;/div&gt;
+			    						&lt;div id=&quot;s4graph&quot;&gt;&lt;/div&gt;
+			    					&lt;/div&gt;
+		    					&lt;/div&gt;
+		    					&lt;div class=&quot;slide&quot;&gt;
+		    						&lt;div class=&quot;svgcontainer&quot;&gt;
+			    						&lt;div id=&quot;s5headercontainer&quot;&gt;&lt;/div&gt;
+			    						&lt;div id=&quot;s5graph&quot;&gt;&lt;/div&gt;
+			    					&lt;/div&gt;
+		    					&lt;/div&gt;
+		    					&lt;div class=&quot;slide&quot;&gt;
+		    						&lt;div class=&quot;svgcontainer&quot;&gt;
+			    						&lt;div id=&quot;s6headercontainer&quot;&gt;&lt;/div&gt;
+			    						&lt;div id=&quot;s6graph&quot;&gt;&lt;/div&gt;
+			    					&lt;/div&gt;
+		    					&lt;/div&gt;
+							&lt;/div&gt;
+						&lt;/div&gt;
+					&lt;/div&gt;
+			'>
+			</core:HTML>
+		</content>
+		<footer>
+			<Bar>
+				<contentRight>
+					<Button id="autoPlayBtnID" icon="sap-icon://stop" press="onAutoPlayBtnPressed" />
+					<Button icon="sap-icon://refresh" press="onRefleshPressed" />
+				</contentRight>
+			</Bar>
+		</footer>
+	</Page>
+</mvc:View>

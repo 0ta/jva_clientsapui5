@@ -1,0 +1,111 @@
+div.fp-tableCell {
+	height: 600px !important;
+}
+
+#fullpagecontainer {
+	height: 100% !important;
+}
+
+.sapUiNoPadding {
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+div.sapUiNoPadding .sapUiVltCell {
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+.jvaMToggleBtnPressed {
+	background-color: #007cc0 !important;
+    border-color: #006ca7 !important;	
+}
+
+.svgcontainer {
+	text-align: center;
+}
+
+.section {
+        height: 100% !important;
+}
+
+.axis path,
+.axis line {
+	fill: none;
+	stroke: black;
+	shape-rendering: crispEdges;
+}
+
+.axis text {
+	font-family: sans-serif;
+	font-size: 11px;
+}
+
+.volley-CustomTile {
+    padding: 10px;
+}
+
+.volley-Page-Header {
+	padding: 5px;
+    font-size: 40px;
+    font-weight: bold;
+    font-family: Arial,Helvetica,sans-serif;
+    color: #848BEB;
+    line-height: normal;
+    display: inline;
+    padding: 0px;
+}
+
+.sapMIBar .volley-Page-Header-Info {
+    color: #999;
+}
+
+.volley-CustomTile-Header {
+	padding: 5px;
+    font-size: 50px;
+    font-weight: bold;
+    font-family: Arial,Helvetica,sans-serif;
+    color: #ffffff;
+    line-height: normal;
+    display: inline;
+    width: 50px;
+    height: 50px;
+    -webkit-border-radius: 25px;
+    -moz-border-radius: 25px;
+    border-radius: 25px;
+    background-color: #999;
+}
+
+.volley-CustomTile-Header-CurrentPosition {
+	padding: 5px;
+    font-size: 50px;
+    font-weight: bold;
+    font-family: Arial,Helvetica,sans-serif;
+    color: #ffffff;
+    line-height: normal;
+    display: inline;
+    width: 50px;
+    height: 50px;
+    -webkit-border-radius: 25px;
+    -moz-border-radius: 25px;
+    border-radius: 25px;
+    background-color: #D22CB1;
+}
+
+.volley-CustomTile-Unifiedshell {
+	max-width: 250px;
+}
+
+.sapUiUfdShellHeadBegin>.sapUiUfdShellIco>img {
+  max-height: 36px;
+  max-width: 250px;
+  vertical-align: middle;
+}
+
+.volley-CustomTile-HV {
+    color: red;
+    font-size: 16px;
+    font-weight: bold;
+    display:block;
+	floet:left;
+}
