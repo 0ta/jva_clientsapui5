@@ -233,14 +233,23 @@ sap.ui.core.mvc.Controller.extend("sap.ags.jvap.view.BlockPointAnalysis", {
 		for (i = 0; i < 5; i++) {
 			this._createReceiverButton(svgHeaderContainer, "#0" + i, i, rotation);
 		}		
-		// HitRatio per receiver
-		svgHeaderContainer.append("g").attr("class", "headercontainer_hrate_g").selectAll("text").data(rrates).enter().append("text").text(function(d) {
-			return "正解率：-%(0/0)";
+		// Title of Atack num per receiver
+		svgHeaderContainer.append("g").attr("class", "headercontainer_atacknum_title_g").selectAll("text").data(rrates).enter().append("text").text(function(d) {
+			return "アタック数:";
 		}).attr("x", function(d, i) {
-			return 200 * i - 10;
+			return 200 * i;
 		}).attr("y", function(d, i) {
 			return 137;
 		}).attr("font-size", "13px").attr("fill", "gray");
+		
+		// Atack num per receiver
+		svgHeaderContainer.append("g").attr("class", "headercontainer_atacknum_g").selectAll("text").data(rrates).enter().append("text").text(function(d) {
+			return "0";
+		}).attr("x", function(d, i) {
+			return 200 * i + 63;
+		}).attr("y", function(d, i) {
+			return 141;
+		}).attr("font-size", "18px").attr("fill", "gray");
 	},
 
 	_createReceiverButton : function(svg, uninum, num, rotation) {
@@ -309,8 +318,8 @@ sap.ui.core.mvc.Controller.extend("sap.ags.jvap.view.BlockPointAnalysis", {
 	
 	_svgGraphRendering : function(svg, rotation) {
 		// Preparation
-		var vals = [0, 0, 0, 0, 0, 0];
-		var unums = [ "00", "01", "02", "03", "04", "05" ];
+		var vals = [0, 0, 0, 0, 0];
+		var unums = [ "00", "01", "02", "03", "04" ];
 
 		// Graph start
 		var graphcontainer = svg.append("g").attr("transform", "translate(" + (this._oMarginFromLeft + 230) + ", 190)");
@@ -324,10 +333,36 @@ sap.ui.core.mvc.Controller.extend("sap.ags.jvap.view.BlockPointAnalysis", {
 		
 		// Bar chart
 		graphcontainer.append("g").attr("class", "chart_rect_g").selectAll("rect").data(vals).enter().append("rect").attr("x", 0).attr("y", function(d, i) {
-			return i * 50;
+			return i * 60 - 5;
 		}).attr("width", function(d) {
 			return d * 6;
 		}).attr("height", 30).attr("fill", "CornflowerBlue");
+		
+		// Actual atacker stats
+		var aastatsgroups = [];
+		var aastatsGroup1 = graphcontainer.append("g").attr("class", "chart_aastats_g_1").attr("transform", "translate(0, 35)");
+		aastatsgroups.push(aastatsGroup1);
+		var aastatsGroup2 = graphcontainer.append("g").attr("class", "chart_aastats_g_2").attr("transform", "translate(0, 95)");
+		aastatsgroups.push(aastatsGroup2);
+		var aastatsGroup3 = graphcontainer.append("g").attr("class", "chart_aastats_g_3").attr("transform", "translate(0, 155)");
+		aastatsgroups.push(aastatsGroup3);
+		var aastatsGroup4 = graphcontainer.append("g").attr("class", "chart_aastats_g_4").attr("transform", "translate(0, 215)");
+		aastatsgroups.push(aastatsGroup4);
+		var aastatsGroup5 = graphcontainer.append("g").attr("class", "chart_aastats_g_5").attr("transform", "translate(0, 275)");
+		aastatsgroups.push(aastatsGroup5);
+//		for (var i = 0; i < 5; i++) {
+//			var aastatsgroup = aastatsgroups[i];
+//			for (var j = 0; j < 9 - i; j++) {
+//				aastatsgroup.append("circle").attr("cx", j * 60 + 60).attr("r", 5).attr("fill", "red").attr("fill-opacity", 0.7);
+//				aastatsgroup.append("path").attr("d", this._fLineFunction([ {
+//					"x" : 0,
+//					"y" : 0
+//				}, {
+//					"x" : j * 60 + 60,
+//					"y" : 0
+//				} ])).attr("stroke", "red").attr("fill", "none").attr("stroke-width", 10).attr("stroke-opacity", 0.2);
+//			}
+//		}		
 
 		// Percentage number displayed on bar chart
 		graphcontainer.append("g").attr("class", "chart_percentage_g").selectAll("text").data(vals).enter().append("text").text(function(d) {
@@ -345,13 +380,13 @@ sap.ui.core.mvc.Controller.extend("sap.ags.jvap.view.BlockPointAnalysis", {
 			}
 			return ret;
 		}).attr("y", function(d, i) {
-			return i * 50 + 20;
+			return i * 60 + 20 - 5;
 		}).attr("font-size", "17px").attr("fill", "white");
 
 		// Fill pattern
 		var uniNumContainer = graphcontainer.append("g").attr("class", "chart_uninumber_g").attr("transform", "translate(-65, 0)");
 		uniNumContainer.append("g").selectAll("rect").data(unums).enter().append("rect").attr("x", 0).attr("y", function(d, i) {
-			return i * 50 - 2;
+			return i * 60 - 2;
 		}).attr("width", function(d) {
 			return 55;
 		}).attr("height", 34).attr("fill", "pink");
@@ -361,7 +396,7 @@ sap.ui.core.mvc.Controller.extend("sap.ags.jvap.view.BlockPointAnalysis", {
 		}).attr("x", function(d, i) {
 			return 9;
 		}).attr("y", function(d, i) {
-			return i * 50 + 23;
+			return i * 60 + 23;
 		}).attr("font-size", "22px").attr("fill", "white").attr("font-weight", "bold");
 
 		// Axis
@@ -370,7 +405,7 @@ sap.ui.core.mvc.Controller.extend("sap.ags.jvap.view.BlockPointAnalysis", {
 		var xAxis = d3.svg.axis().scale(xScale).orient("bottom");
 		graphcontainer.append("g").attr("class", "axis").attr("transform", "translate(0, 290)").call(xAxis);
 		// Y Axis
-		var yScale = d3.scale.linear().domain([ 0, 6 ]).range([ 0, 300 ]);
+		var yScale = d3.scale.linear().domain([ 0, 5 ]).range([ 0, 300 ]);
 		var yAxis = d3.svg.axis().scale(yScale).orient("left").ticks(6).tickFormat(function(d) {
 			return "";
 		});
@@ -444,29 +479,17 @@ sap.ui.core.mvc.Controller.extend("sap.ags.jvap.view.BlockPointAnalysis", {
 		this._oResultDisplayPopOver.close();
 	},
 	
-	_svgPageTransition : function(svg, result, rrates, currentRotation, rotation) {
-		// for test
-//		var vals = [];
-//		for (var i = 0; i < 6; i++) {
-//			var rand = Math.floor(Math.random() * 101);
-//			vals.push(rand);
-//		}
-//		vals.sort(function(a, b) {
-//			if (a > b)
-//				return -1;
-//			if (a < b)
-//				return 1;
-//			return 0;
-//
-//		});
+	_svgPageTransition : function(svg, result, rrates, atacknums, currentRotation, rotation) {
 		var me = this;
 		var vals = [];
-		for(var i = 0; i < 7; i++) {
+		for(var i = 1; i < 7; i++) {
 			var position = "p" + (i + 1);
 			var percentage = result["targetPercent_" + position];
+			var aastat = result["actualAtacknum_" + position];
 			vals.push({
 				position: position,
-				percentage: percentage
+				percentage: percentage,
+				aastat: aastat
 			});
 		}
 		vals.sort(function(a, b) {
@@ -475,7 +498,6 @@ sap.ui.core.mvc.Controller.extend("sap.ags.jvap.view.BlockPointAnalysis", {
 		if (a.percentage < b.percentage)
 			return 1;
 		return 0;
-
 		});
 		
 		// Header container
@@ -485,22 +507,16 @@ sap.ui.core.mvc.Controller.extend("sap.ags.jvap.view.BlockPointAnalysis", {
 		}).attr("fill", function(d, i) {
 			return me._fCriteriaColor(d);
 		});
+		// Actual atack number
+		svg.select(".headercontainer_atacknum_g").selectAll("text").data(atacknums).transition().text(function(d) {
+			return d;
+		});
 		// Uniform number in button
 		svg.select(".header_button_text_g").selectAll("text").data(rrates).transition().text(function(d, i) {
 			var pnum = "p" + (i + 2);
 			return "#" + me._oUniformNumber[pnum];
 		});
-//		// warning marking
-//		svg.select(".headercontainer_warningmark_g").selectAll("text").data(rrates).transition()
-//				.attr("visibility", function(d, i) {
-//					var ret = "hidden";
-//					if(d > me._oThrashold) {
-//						ret = "visible";
-//					}
-//					return ret;
-//				}); 
-				
-		
+
 		// Graph
 		// Graph var transition
 		svg.select(".chart_rect_g").selectAll("rect").data(vals).transition().attr("width", function(d) {
@@ -529,6 +545,30 @@ sap.ui.core.mvc.Controller.extend("sap.ags.jvap.view.BlockPointAnalysis", {
 			}
 			return ret;
 		});
+		
+		// Actual atacker stats
+		var aastatsgroups = [];
+		aastatsgroups.push(svg.select(".chart_aastats_g_1"));
+		aastatsgroups.push(svg.select(".chart_aastats_g_2"));
+		aastatsgroups.push(svg.select(".chart_aastats_g_3"));
+		aastatsgroups.push(svg.select(".chart_aastats_g_4"));
+		aastatsgroups.push(svg.select(".chart_aastats_g_5"));
+		for (var i = 0; i < 5; i++) {
+			var aastatsgroup = aastatsgroups[i];
+			aastatsgroup.selectAll("circle").remove();
+			aastatsgroup.selectAll("path").remove();
+			for (var j = 0; j < vals[i].aastat; j++) {
+				aastatsgroup.append("circle").attr("cx", j * 60 + 60).attr("r", 5).attr("fill", "red").attr("fill-opacity", 0.7);
+				aastatsgroup.append("path").attr("d", this._fLineFunction([ {
+					"x" : 0,
+					"y" : 0
+				}, {
+					"x" : j * 60 + 60,
+					"y" : 0
+				} ])).attr("stroke", "red").attr("fill", "none").attr("stroke-width", 10).attr("stroke-opacity", 0.2);
+			}
+		}		
+
 		// Uniform number
 		var chartUniformNumberGroup = svg.select(".chart_uninumber_g");
 		// Uniform number box
@@ -550,12 +590,14 @@ sap.ui.core.mvc.Controller.extend("sap.ags.jvap.view.BlockPointAnalysis", {
 
 	_svgPageTransitionWithoutAnimation : function(svg, result, rotation, me) {
 		var vals = [];
-		for(var i = 0; i < 7; i++) {
+		for(var i = 1; i < 7; i++) {
 			var position = "p" + (i + 1);
 			var percentage = result["targetPercent_" + position];
+			var aastat = result["actualAtacknum_" + position];
 			vals.push({
 				position: position,
-				percentage: percentage
+				percentage: percentage,
+				aastat: aastat
 			});
 		}
 		vals.sort(function(a, b) {
@@ -592,6 +634,28 @@ sap.ui.core.mvc.Controller.extend("sap.ags.jvap.view.BlockPointAnalysis", {
 			}
 			return ret;
 		});
+		// Actual atacker stats
+		var aastatsgroups = [];
+		aastatsgroups.push(svg.select(".chart_aastats_g_1"));
+		aastatsgroups.push(svg.select(".chart_aastats_g_2"));
+		aastatsgroups.push(svg.select(".chart_aastats_g_3"));
+		aastatsgroups.push(svg.select(".chart_aastats_g_4"));
+		aastatsgroups.push(svg.select(".chart_aastats_g_5"));
+		for (var i = 0; i < 5; i++) {
+			var aastatsgroup = aastatsgroups[i];
+			aastatsgroup.selectAll("circle").remove();
+			aastatsgroup.selectAll("path").remove();
+			for (var j = 0; j < vals[i].aastat; j++) {
+				aastatsgroup.append("circle").attr("cx", j * 60 + 60).attr("r", 5).attr("fill", "red").attr("fill-opacity", 0.7);
+				aastatsgroup.append("path").attr("d", this._fLineFunction([ {
+					"x" : 0,
+					"y" : 0
+				}, {
+					"x" : j * 60 + 60,
+					"y" : 0
+				} ])).attr("stroke", "red").attr("fill", "none").attr("stroke-width", 10).attr("stroke-opacity", 0.2);
+			}
+		}
 		// Uniform number
 		var chartUniformNumberGroup = svg.select(".chart_uninumber_g");
 		// Uniform number box
@@ -673,6 +737,10 @@ sap.ui.core.mvc.Controller.extend("sap.ags.jvap.view.BlockPointAnalysis", {
 			var selectedReceiver = this["_oSelectedReceiverNumPosition_S" + i];
 			var displayPosition = Number(selectedReceiver.substr(selectedReceiver.length - 1, 1)) - 2;
 			var resultForRotation = result.setterPositions[i - 1];
+			var atacknums = [];
+			for (var k = 0; k < resultForRotation.passes.length; k++) {
+				atacknums.push(resultForRotation.passes[k].actualAtacknumPerReceptionPlayer);
+			}
 			var resultForPosition = resultForRotation.passes[displayPosition];
 			var rrates = [];
 			for (var j = 0; j < 5; j++) {
@@ -680,7 +748,7 @@ sap.ui.core.mvc.Controller.extend("sap.ags.jvap.view.BlockPointAnalysis", {
 			}
 			var svg = this["_oSVG_" + "S" + i];
 			this._svgPutWarningMark(svg, resultForRotation);
-			this._svgPageTransition(svg, resultForPosition, rrates, currentRotation, "S" + i);
+			this._svgPageTransition(svg, resultForPosition, rrates, atacknums, currentRotation, "S" + i);
 		}
 		if (this._oIsAutoPlayMode) {
 			$.fn.fullpage.moveTo(0, currentRotation - 1);
