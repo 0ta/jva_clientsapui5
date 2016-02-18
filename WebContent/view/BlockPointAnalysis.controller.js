@@ -1,5 +1,6 @@
 jQuery.sap.require("sap.ui.core.mvc.Controller");
 jQuery.sap.require("sap.ui.core.format.DateFormat");
+jQuery.sap.require("sap.ags.jvap.formatter.PercentageDisplayFormatter");
 
 sap.ui.core.mvc.Controller.extend("sap.ags.jvap.view.BlockPointAnalysis", {
 	_oDevicewidth : 0,
@@ -317,6 +318,7 @@ sap.ui.core.mvc.Controller.extend("sap.ags.jvap.view.BlockPointAnalysis", {
 	},
 	
 	_svgGraphRendering : function(svg, rotation) {
+		var me = this;
 		// Preparation
 		var vals = [0, 0, 0, 0, 0];
 		var unums = [ "00", "01", "02", "03", "04" ];
@@ -420,13 +422,37 @@ sap.ui.core.mvc.Controller.extend("sap.ags.jvap.view.BlockPointAnalysis", {
 		// Current rotation mark
 		rotationGroup.append("circle").attr("cx", this._oMarginFromLeft + 40).attr("cy", 200).attr("r", 5).attr("fill", "#cc00cc").attr("visibility", "hidden");
 		
+		// HitRatio per rotation title
+		rotationGroup.append("g").attr("class", "chart_hrateTitle_g").append("text").text("正解率：")
+		.attr("x", this._oMarginFromLeft + 55)
+		.attr("y", 265)
+		.attr("font-size", "14px").attr("fill", "gray");
 		// HitRatio per rotation
-		var hrate = [23];
-		rotationGroup.append("g").attr("class", "chart_hrate_g").selectAll("text").data(hrate).enter().append("text").text(function(d) {
-			return "正解率：-%(0/0)";
-		}).attr("x", this._oMarginFromLeft + 33)
-		.attr("y", 250)
-		.attr("font-size", "13px").attr("fill", "gray");
+		var percentage = [0];
+		rotationGroup.append("g").attr("class", "chart_hrate_g").selectAll("text").data(percentage).enter().append("text")
+		.text(function(d, i) {
+			return d;
+		})
+		.attr("x", function(d, i) {
+			if (d < 10) {
+				return me._oMarginFromLeft + 90;
+			} else if (d < 100) {
+				return me._oMarginFromLeft + 70;				
+			}
+			return me._oMarginFromLeft + 50;				
+		})
+		.attr("y", 300)
+		.attr("font-size", "40px").attr("fill", "gray");
+		// HitRatio per rotation percentage
+		rotationGroup.append("g").attr("class", "chart_hratePercentage_g").append("text").text("%")
+		.attr("x", this._oMarginFromLeft + 130)
+		.attr("y", 300)
+		.attr("font-size", "16px").attr("fill", "gray");
+		// HitRatio per rotation actual number
+		rotationGroup.append("g").attr("class", "chart_hrateActualNumber_g").append("text").text("(0/0)")
+		.attr("x", this._oMarginFromLeft + 80)
+		.attr("y", 320)
+		.attr("font-size", "16px").attr("fill", "gray");
 	},
 
 	onRefleshPressed : function(oEvent) {
@@ -479,7 +505,7 @@ sap.ui.core.mvc.Controller.extend("sap.ags.jvap.view.BlockPointAnalysis", {
 		this._oResultDisplayPopOver.close();
 	},
 	
-	_svgPageTransition : function(svg, result, rrates, atacknums, currentRotation, rotation) {
+	_svgPageTransition : function(svg, result, rrates, atacknums, hitratioObj, currentRotation, rotation) {
 		var me = this;
 		var vals = [];
 		for(var i = 1; i < 7; i++) {
@@ -586,6 +612,37 @@ sap.ui.core.mvc.Controller.extend("sap.ags.jvap.view.BlockPointAnalysis", {
 			rotationVisibility = "visible";
 		} 
 		svg.select(".chart_rotation_g").select("circle").attr("visibility", rotationVisibility);
+		
+		// Hit ratio per rotation
+		var chartHitRatioGroup = svg.select(".chart_hrate_g");
+		var percentage = [hitratioObj];
+		chartHitRatioGroup.selectAll("text").data(percentage).transition()
+		.text(function(d, i) {
+			if (d.totalnum === 0) {
+				return "-";
+			}
+			return Math.round(d.correctnum / d.totalnum * 100);
+		})
+		.attr("x", function(d, i) {
+			var dPercentage;
+			if (d.totalnum === 0) {
+				dPercentage = 0;
+			} else {
+				dPercentage = Math.round(d.correctnum / d.totalnum * 100);
+			}
+			if (dPercentage < 10) {
+				return me._oMarginFromLeft + 90;
+			} else if (dPercentage < 100) {
+				return me._oMarginFromLeft + 70;				
+			}
+			return me._oMarginFromLeft + 50;				
+		});
+		// HitRatio per rotation actual number
+		var chartHitRatioActualNumberGroup = svg.select(".chart_hrateActualNumber_g");
+		chartHitRatioActualNumberGroup.selectAll("text").data(percentage).transition()
+		.text(function(d, i) {
+			return "(" + d.correctnum + "/" + d.totalnum + ")";
+		});
 	},
 
 	_svgPageTransitionWithoutAnimation : function(svg, result, rotation, me) {
@@ -748,7 +805,10 @@ sap.ui.core.mvc.Controller.extend("sap.ags.jvap.view.BlockPointAnalysis", {
 			}
 			var svg = this["_oSVG_" + "S" + i];
 			this._svgPutWarningMark(svg, resultForRotation);
-			this._svgPageTransition(svg, resultForPosition, rrates, atacknums, currentRotation, "S" + i);
+			var totalnum = resultForRotation.answerHitratio_num;
+			var correctnum = resultForRotation.answerHitratio_correctNum;
+			var hitratioObj = {totalnum: totalnum, correctnum: correctnum};
+			this._svgPageTransition(svg, resultForPosition, rrates, atacknums, hitratioObj, currentRotation, "S" + i);
 		}
 		if (this._oIsAutoPlayMode) {
 			$.fn.fullpage.moveTo(0, currentRotation - 1);

@@ -1,32 +1,120 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout"
 	xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:commons="sap.suite.ui.commons">
-	<Dialog id="idResultDialog" title="Information" contentWidth="720px"
+	<Dialog id="idResultDialog" title="Information" contentWidth="477px"
 		class="sapUiPopupWithPadding">
 		<content>
+			<!--
 			<commons:TileContent footer="Actual and Target" unit="EUR" size="S"
 				class="sapUiSmallMargin">
 				<commons:content>
 					<core:HTML content='&lt;svg class=&quot;volley-PopOverResult-Total&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot;&gt;&lt;/svg&gt;'></core:HTML>
 				</commons:content>
 			</commons:TileContent>
-			<commons:TileContent footer="Actual and Target" unit="EUR" size="S"
-				class="sapUiSmallMargin">
-				<commons:content>
-					<commons:BulletChart size="S" scale="M" targetValue="75"
-						targetValueLabel="75c" minValue="0" maxValue="150">
-						<commons:actual>
-							<commons:BulletChartData value="125" color="Error" />
-						</commons:actual>
-						<commons:thresholds>
-							<commons:BulletChartData value="35" color="Critical" />
-							<commons:BulletChartData value="115" color="Error" />
-						</commons:thresholds>
-					</commons:BulletChart>
-				</commons:content>
-			</commons:TileContent>
+			<CustomTile>
+				<content>
+					<core:HTML content='&lt;svg class=&quot;volley-PopOverResult-Total&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot;&gt;&lt;/svg&gt;'></core:HTML>
+				</content>
+			</CustomTile>
+			-->
+			<commons:GenericTile 
+				header="【Total】"
+				size="S" 
+				frameType="OneByOne">
+				<commons:tileContent>
+					<commons:TileContent footer="({answerHitratio_correctNum_total} / {answerHitratio_num_total})" size="S">
+						<commons:content>
+							<commons:HarveyBallMicroChart size="S" total="100" totalScale="%" showTotal="false" showFractions="true">
+								<commons:items>
+									<commons:HarveyBallMicroChartItem fraction="{path: 'answerHitratio_correctPercentage_total', formatter: 'sap.ags.jvap.formatter.PercentageDisplayFormatter.getPercentage'}" fractionLabel="{answerHitratio_correctPercentage_total}" color="{path: 'answerHitratio_correctPercentage_total', formatter: 'sap.ags.jvap.formatter.PercentageDisplayFormatter.getColor'}" fractionScale="%" /> 
+								</commons:items>
+							</commons:HarveyBallMicroChart>
+						</commons:content>
+					</commons:TileContent>
+				</commons:tileContent>
+			</commons:GenericTile>
+			<commons:GenericTile 
+				header="1 Set"
+				size="S" 
+				frameType="OneByOne">
+				<commons:tileContent>
+					<commons:TileContent footer="({answerHitratio_correctNum_1} / {answerHitratio_num_1})" size="S">
+						<commons:content>
+							<commons:HarveyBallMicroChart size="S" total="100" totalScale="%" showTotal="false" showFractions="true">
+								<commons:items>
+									<commons:HarveyBallMicroChartItem fraction="{path: 'answerHitratio_correctPercentage_1', formatter: 'sap.ags.jvap.formatter.PercentageDisplayFormatter.getPercentage'}" fractionLabel="{answerHitratio_correctPercentage_1}" color="{path: 'answerHitratio_correctPercentage_1', formatter: 'sap.ags.jvap.formatter.PercentageDisplayFormatter.getColor'}" fractionScale="%" /> 
+								</commons:items>
+							</commons:HarveyBallMicroChart>
+						</commons:content>
+					</commons:TileContent>
+				</commons:tileContent>
+			</commons:GenericTile>
+			<commons:GenericTile 
+				header="2 Set"
+				size="S" 
+				frameType="OneByOne">
+				<commons:tileContent>
+					<commons:TileContent footer="({answerHitratio_correctNum_2} / {answerHitratio_num_2})" size="S">
+						<commons:content>
+							<commons:HarveyBallMicroChart size="S" total="100" totalScale="%" showTotal="false" showFractions="true">
+								<commons:items>
+									<commons:HarveyBallMicroChartItem fraction="{path: 'answerHitratio_correctPercentage_2', formatter: 'sap.ags.jvap.formatter.PercentageDisplayFormatter.getPercentage'}" fractionLabel="{answerHitratio_correctPercentage_2}" color="{path: 'answerHitratio_correctPercentage_2', formatter: 'sap.ags.jvap.formatter.PercentageDisplayFormatter.getColor'}" fractionScale="%" /> 
+								</commons:items>
+							</commons:HarveyBallMicroChart>
+						</commons:content>
+					</commons:TileContent>
+				</commons:tileContent>
+			</commons:GenericTile>
+			<commons:GenericTile 
+				header="3 Set"
+				size="S" 
+				frameType="OneByOne">
+				<commons:tileContent>
+					<commons:TileContent footer="({answerHitratio_correctNum_3} / {answerHitratio_num_3})" size="S">
+						<commons:content>
+							<commons:HarveyBallMicroChart size="S" total="100" totalScale="%" showTotal="false" showFractions="true">
+								<commons:items>
+									<commons:HarveyBallMicroChartItem fraction="{path: 'answerHitratio_correctPercentage_3', formatter: 'sap.ags.jvap.formatter.PercentageDisplayFormatter.getPercentage'}" fractionLabel="{answerHitratio_correctPercentage_3}" color="{path: 'answerHitratio_correctPercentage_3', formatter: 'sap.ags.jvap.formatter.PercentageDisplayFormatter.getColor'}" fractionScale="%" /> 
+								</commons:items>
+							</commons:HarveyBallMicroChart>
+						</commons:content>
+					</commons:TileContent>
+				</commons:tileContent>
+			</commons:GenericTile>
+			<commons:GenericTile 
+				header="4 Set"
+				size="S" 
+				frameType="OneByOne">
+				<commons:tileContent>
+					<commons:TileContent footer="({answerHitratio_correctNum_4} / {answerHitratio_num_4})" size="S">
+						<commons:content>
+							<commons:HarveyBallMicroChart size="S" total="100" totalScale="%" showTotal="false" showFractions="true">
+								<commons:items>
+									<commons:HarveyBallMicroChartItem fraction="{path: 'answerHitratio_correctPercentage_4', formatter: 'sap.ags.jvap.formatter.PercentageDisplayFormatter.getPercentage'}" fractionLabel="{answerHitratio_correctPercentage_4}" color="{path: 'answerHitratio_correctPercentage_4', formatter: 'sap.ags.jvap.formatter.PercentageDisplayFormatter.getColor'}" fractionScale="%" /> 
+								</commons:items>
+							</commons:HarveyBallMicroChart>
+						</commons:content>
+					</commons:TileContent>
+				</commons:tileContent>
+			</commons:GenericTile>
+			<commons:GenericTile 
+				header="5 Set"
+				size="S" 
+				frameType="OneByOne">
+				<commons:tileContent>
+					<commons:TileContent footer="({answerHitratio_correctNum_5} / {answerHitratio_num_5})" size="S">
+						<commons:content>
+							<commons:HarveyBallMicroChart size="S" total="100" totalScale="%" showTotal="false" showFractions="true">
+								<commons:items>
+									<commons:HarveyBallMicroChartItem fraction="{path: 'answerHitratio_correctPercentage_5', formatter: 'sap.ags.jvap.formatter.PercentageDisplayFormatter.getPercentage'}" fractionLabel="{answerHitratio_correctPercentage_5}" color="{path: 'answerHitratio_correctPercentage_5', formatter: 'sap.ags.jvap.formatter.PercentageDisplayFormatter.getColor'}" fractionScale="%" /> 
+								</commons:items>
+							</commons:HarveyBallMicroChart>
+						</commons:content>
+					</commons:TileContent>
+				</commons:tileContent>
+			</commons:GenericTile>
 		</content>
 		<buttons>
-			<Button text="キャンセル" press="onResultDialogCancel" />
+			<Button text="Close" press="onResultDialogCancel" />
 		</buttons>
 	</Dialog>
 </core:FragmentDefinition>
